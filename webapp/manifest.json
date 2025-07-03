@@ -1,0 +1,107 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "oms1",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.1",
+      "toolsId": "e1ea0e58-e94c-4a61-8309-1ec960e90697"
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.136.2",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.tnt": {},
+        "sap.f": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "oms1.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlId": "app",
+        "controlAggregation": "pages",
+        "transition": "slide",
+        "viewType": "XML",
+        "viewPath": "oms1.view",
+        "path": "oms1.view"
+      },
+      "routes": [
+        {
+          "pattern": "",
+          "name": "loginRoute",
+          "target": "loginTarget"
+        },
+        {
+          "pattern": "welcome/{username}",
+          "name": "welcomeRoute",
+          "target": "welcomeTarget"
+        }
+      ],
+      "targets": {
+        "loginTarget": {
+          "viewName": "Login",
+          "viewId": "loginView",
+          "viewLevel": 1
+        },
+        "welcomeTarget": {
+          "viewName": "Welcome",
+          "viewId": "welcomeView",
+          "viewLevel": 2
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "oms1.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}
