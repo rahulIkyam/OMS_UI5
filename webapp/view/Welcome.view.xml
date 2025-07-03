@@ -6,40 +6,30 @@
     xmlns:f="sap.f"
     displayBlock="true">
 
-    <!-- <f:ShellBar 
-        id="_IDGenShellBar"
-        title="Order Management System"
-        showNavButton="true">
-        <f:menu>
-            <Menu id="_IDGenMenu1">
-                <MenuItem id="_IDGenMenuItem" text="Settings" icon="sap-icon://settings"/>
-                <MenuItem id="_IDGenMenuItem1" text="Help" icon="sap-icon://sys-help"/>
-            </Menu>
-        </f:menu>
-        <f:profile>
-            <Avatar id="_IDGenAvatar" src="sap-icon://employee" displaySize="S"/>
-        </f:profile>
-    </f:ShellBar> -->
-
     <tnt:ToolPage id="_IDGenToolPage">
         <tnt:header>
             <OverflowToolbar id="_IDGenOverflowToolbar1">
                 <Button id="_IDGenButton2" icon="sap-icon://menu2" press=".onToggleSidebar"/>
                 <Title id="_IDGenTitle1" text="Welcome, {/userId}!"/>
                 <ToolbarSpacer id="_IDGenToolbarSpacer"/>
-                <Text id="_IDGenText6" text="Role: {/role}"/>
+                <Text id="_IDGenText6" text="Role: {/role}" class="sapUiTinyMarginEnd"/>
+                <Button id="_IDGenButton1" 
+                    text="Logout" 
+                    press=".onBackToLogin"
+                    type="Reject"
+                    class="sapUiSmallMarginBegin"/>
             </OverflowToolbar>
         </tnt:header>
 
         <tnt:sideContent>
             <tnt:SideNavigation id="_IDGenSideNav">
-                <tnt:NavigationList id="_IDGenNavigationList" >
+                <tnt:NavigationList id="_IDGenNavigationList">
                     <tnt:NavigationListItem 
                         id="dashboardItem"
                         text="Dashboard"
                         icon="sap-icon://home"
                         select=".onNavItemSelect"/>
-                        <tnt:NavigationListItem 
+                    <tnt:NavigationListItem 
                         id="ordersItem"
                         text="My Orders"
                         icon="sap-icon://sales-order"
@@ -59,21 +49,35 @@
         </tnt:sideContent>
 
         <tnt:mainContents>
-            <Page id="_IDGenPage1" title="Welcome" showHeader="false">
+            <Page id="_IDGenPage1" showHeader="false">
                 <content>
-                    <VBox id="_IDGenVBox2" class="sapUiMediumMargin">
-                        <Text id="_IDGenText2" text="Welcome, {/userId}!" class="sapUiLargeMarginBottom"/>
-                        <Text id="_IDGenText3" text="You successfully logged in with these credentials:"/>
-                        <Text id="_IDGenText4" text="Company: {/company}" class="sapUiTinyMarginTop"/>
-                        <Text id="_IDGenText5" text="Role: {/role}" class="sapUiTinyMarginTop"/>
-                        <Button id="_IDGenButton1" 
-                            text="Logout" 
-                            press=".onBackToLogin"
-                            class="sapUiMediumMarginTop"/>
+                    <!-- Dashboard Content -->
+                    <VBox id="dashboardContent" visible="{= ${viewModel>/currentPage} === 'dashboard'}">
+                        <Text id="_IDGenText3" text="Welcome, {/userId}!" class="sapUiLargeMarginBottom"/>
+                        <Text id="_IDGenText4" text="You successfully logged in with these credentials:"/>
+                        <Text id="_IDGenText5" text="Company: {/company}" class="sapUiTinyMarginTop"/>
+                        <Text id="_IDGenText7" text="Role: {/role}" class="sapUiTinyMarginTop"/>
+                    </VBox>
+                    
+                    <!-- Orders Content -->
+                    <VBox id="ordersContent" visible="{= ${viewModel>/currentPage} === 'orders'}">
+                        <Text id="_IDGenText8" text="My Orders will be displayed here" class="sapUiLargeMarginBottom"/>
+                        <!-- Add your orders content here -->
+                    </VBox>
+                    
+                    <!-- Profile Content -->
+                    <VBox id="profileContent" visible="{= ${viewModel>/currentPage} === 'profile'}">
+                        <Text id="_IDGenText9" text="My Profile will be displayed here" class="sapUiLargeMarginBottom"/>
+                        <!-- Add your profile content here -->
+                    </VBox>
+                    
+                    <!-- Reports Content -->
+                    <VBox id="reportsContent" visible="{= ${viewModel>/currentPage} === 'reports'}">
+                        <Text id="_IDGenText10" text="Reports will be displayed here" class="sapUiLargeMarginBottom"/>
+                        <!-- Add your reports content here -->
                     </VBox>
                 </content>
             </Page>
         </tnt:mainContents>
     </tnt:ToolPage>
-    
 </mvc:View>

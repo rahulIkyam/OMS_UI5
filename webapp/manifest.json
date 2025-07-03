@@ -82,6 +82,21 @@
           "pattern": "welcome/{username}",
           "name": "welcomeRoute",
           "target": "welcomeTarget"
+        },
+        {
+          "pattern": "welcome/orders",
+          "name": "ordersRoute",
+          "target": "welcomeTarget"
+        },
+        {
+          "pattern": "welcome/profile",
+          "name": "profileRoute",
+          "target": "welcomeTarget"
+        },
+        {
+          "pattern": "welcome/reports",
+          "name": "reportsRoute",
+          "target": "welcomeTarget"
         }
       ],
       "targets": {

@@ -13,6 +13,9 @@ sap.ui.define([
         },
 
         init() {
+            sap.ui.getCore().attachInit(function () {
+                sap.ushell.Container.getRenderer().setHeaderVisibility(false, false);
+            });
             // call the base component's init function
             UIComponent.prototype.init.apply(this, arguments);
 
