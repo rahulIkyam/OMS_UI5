@@ -8,7 +8,7 @@
     
     <Page id="loginPage" showHeader="false">
         <content>
-            <VBox id="_IDGenVBox" alignItems="Center" justifyContent="Center" class="sapUiLargeMargin">
+            <VBox id="_IDGenVBox" alignItems="Center" justifyContent="Center" class="sapUiLargeMargin" fitContainer="true">
                 <VBox id="_IDGenVBox1" width="300px">
                     <Title id="_IDGenTitle" text="OMS Login" class="sapUiSmallMarginBottom"/>
                     <Label id="_IDGenLabel1" text="Username" required="true"/>

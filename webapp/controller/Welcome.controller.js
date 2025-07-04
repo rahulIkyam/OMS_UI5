@@ -1,15 +1,17 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
-    "sap/m/MessageBox"
-], function(Controller, History, MessageBox) {
+    "sap/m/MessageBox",
+    "sap/ui/model/json/JSONModel"
+], function(Controller, History, MessageBox, JSONModel) {
     "use strict";
 
     return Controller.extend("oms1.controller.Welcome", {
         onInit: function() {
             // Initialize view model for page tracking
-            var oViewModel = new sap.ui.model.json.JSONModel({
-                currentPage: "dashboard"
+            var oViewModel = new JSONModel({
+                currentPage: "dashboard",
+                orderData: []
             });
             this.getView().setModel(oViewModel, "viewModel");
 
@@ -43,6 +45,7 @@ sap.ui.define([
                     break;
                 case "ordersItem":
                     this._setActivePage("orders");
+                    this._loadOrderData();
                     break;
                 case "profileItem":
                     this._setActivePage("profile");
@@ -51,6 +54,34 @@ sap.ui.define([
                     this._setActivePage("reports");
                     break;
             }
+        },
+
+        _loadOrderData: function() {
+            var aOrders = [
+                {
+                    "orderId": "ORD_00157",
+                    "contactPerson": "Hassan",
+                    "orderDate": "17/06/2025",
+                    "total": 4000.0,
+                    "status": "No customer master record exists for sold-to party 1000000174"
+                },
+                {
+                    "orderId": "ORD_00161",
+                    "contactPerson": "Hassan",
+                    "orderDate": "18/06/2025",
+                    "total": 4000.0,
+                    "status": "No customer master record exists for sold-to party 1000000174"
+                },
+                {
+                    "orderId": "ORD_00165",
+                    "contactPerson": "Hassan",
+                    "orderDate": "18/06/2025",
+                    "total": 4060.0,
+                    "status": "No customer master record exists for sold-to party 1000000174"
+                }
+            ];
+
+            this.getView().getModel("viewModel").setProperty("/orderData", aOrders);
         },
         
         _setActivePage: function(sPage) {
@@ -84,6 +115,16 @@ sap.ui.define([
                 role: null
             });
             this.getOwnerComponent().getRouter().navTo("loginRoute");
+        },
+
+        onOrderSelected: function(oEvent) {
+            var oSelectedItem = oEvent.getParameter("listItem");
+            var oContext = oSelectedItem.getBindingContext("viewModel");
+            var sOrderId = oContext.getProperty("orderId");
+            
+            MessageBox.show("Selected order: " + sOrderId, {
+                title: "Order Selected"
+            });
         }
     });
 });
