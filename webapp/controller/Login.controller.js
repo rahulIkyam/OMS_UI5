@@ -32,6 +32,7 @@ sap.ui.define([
 
         _authenticateUser: function(sUsername, sPassword) {
             BusyIndicator.show();
+            
 
             var oPayload = {
                 userName: sUsername,
