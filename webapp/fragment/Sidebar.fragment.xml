@@ -1,0 +1,19 @@
+<!-- Sidebar.fragment.xml -->
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:tnt="sap.tnt"
+    xmlns:core="sap.ui.core">
+    
+    <tnt:NavigationList id="sideNavList">
+        <tnt:NavigationListItem 
+            id="dashboardItem"
+            text="Dashboard"
+            icon="sap-icon://home"
+            select=".onNavItemSelect"/>
+        <tnt:NavigationListItem 
+            id="ordersItem"
+            text="My Orders"
+            icon="sap-icon://sales-order"
+            select=".onNavItemSelect"/>
+    </tnt:NavigationList>
+</core:FragmentDefinition>

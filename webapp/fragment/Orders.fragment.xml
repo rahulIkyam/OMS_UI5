@@ -1,0 +1,52 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+    <VBox id="ordersContent" visible="{= ${viewModel>/currentPage} === 'orders'}" width="100%">
+        <Text id="_IDGenText8" text="My Orders will be displayed here" class="sapUiLargeMarginBottom"/>
+                        
+        <Table 
+            id="ordersTable"
+            inset="false"
+            items="{
+                path: 'viewModel>/orderData'
+            }"
+            mode="SingleSelectMaster"
+            selectionChange=".onOrderSelected">
+        <headerToolbar>
+            <OverflowToolbar id="_IDGenOverflowToolbar2">
+                <Title id="_IDGenTitle2" text="My Orders" level="H2"/>
+                <ToolbarSpacer id="_IDGenToolbarSpacer1"/>
+                <!-- <Button id="_IDGenButton3" icon="sap-icon://refresh" press="._loadOrderData"/> -->
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column id="_IDGenColumn1" width="12em">
+                <Text id="_IDGenText2" text="Order ID"/>
+            </Column>
+            <Column id="_IDGenColumn2">
+                <Text id="_IDGenText11" text="Contact Person"/>
+            </Column>
+            <Column id="_IDGenColumn3">
+                <Text id="_IDGenText12" text="Order Date"/>
+            </Column>
+            <Column id="_IDGenColumn4">
+                <Text id="_IDGenText13" text="Total Amount"/>
+            </Column>
+            <Column id="_IDGenColumn5">
+                <Text id="_IDGenText14" text="Status"/>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem id="_IDGenColumnListItem">
+                <cells>
+                    <Text id="_IDGenText16" text="{viewModel>orderId}"/>
+                    <Text id="_IDGenText17" text="{viewModel>contactPerson}"/>
+                    <Text id="_IDGenText18" text="{viewModel>orderDate}"/>
+                    <Text id="_IDGenText19"  text="{viewModel>total}"/>
+                    <Text id="_IDGenText20"  text="{viewModel>status}"/>
+                </cells>
+            </ColumnListItem>
+        </items>
+        </Table>
+    </VBox>
+</core:FragmentDefinition>

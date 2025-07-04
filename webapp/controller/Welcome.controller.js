@@ -1,111 +1,63 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/core/routing/History",
-    "sap/m/MessageBox",
-    "sap/ui/model/json/JSONModel"
-], function(Controller, History, MessageBox, JSONModel) {
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/core/BusyIndicator"
+], function (Controller, JSONModel, BusyIndicator) {
     "use strict";
 
     return Controller.extend("oms1.controller.Welcome", {
-        onInit: function() {
-            // Initialize view model for page tracking
+        onInit: function () {
+            // Initialize view model
             var oViewModel = new JSONModel({
-                currentPage: "dashboard",
-                orderData: []
+                currentPage: "dashboard"
             });
             this.getView().setModel(oViewModel, "viewModel");
 
-            // Set router and handle routing
-            var oRouter = this.getOwnerComponent().getRouter();
-            oRouter.getRoute("welcomeRoute").attachPatternMatched(this._onRouteMatched, this);
-            
-            // Expand sidebar by default
-            this.byId("_IDGenToolPage").setSideExpanded(true);
-            
             // Load user data
             var oUserModel = this.getOwnerComponent().getModel("userData");
             this.getView().setModel(oUserModel);
-        },
 
-        _onRouteMatched: function() {
-            // Set dashboard as default selected
-            this._setActivePage("dashboard");
+            // Expand sidebar by default
+            this.byId("toolPage").setSideExpanded(true);
         },
 
         onNavItemSelect: function(oEvent) {
             var oItem = oEvent.getParameter("item");
             var sItemId = oItem.getId();
-            
-            // Extract the base ID without component prefixes
-            var sBaseId = sItemId.split("--").pop();
-            
-            switch(sBaseId) {
-                case "dashboardItem":
-                    this._setActivePage("dashboard");
+        
+            console.log("Selected item:", sItemId);
+        
+            // Optional: highlight selected item
+            this.byId("sideNavList").setSelectedItem(oItem);
+        
+            // Determine which page to show based on ID
+            var sPageKey = "";
+            switch (sItemId) {
+                case this.createId("dashboardItem"):
+                    sPageKey = "dashboard";
                     break;
-                case "ordersItem":
-                    this._setActivePage("orders");
+                case this.createId("ordersItem"):
+                    sPageKey = "orders";
                     this._loadOrderData();
                     break;
-                case "profileItem":
-                    this._setActivePage("profile");
+                case this.createId("profileItem"):
+                    sPageKey = "profile";
                     break;
-                case "reportsItem":
-                    this._setActivePage("reports");
+                case this.createId("reportsItem"):
+                    sPageKey = "reports";
                     break;
             }
-        },
-
-        _loadOrderData: function() {
-            var aOrders = [
-                {
-                    "orderId": "ORD_00157",
-                    "contactPerson": "Hassan",
-                    "orderDate": "17/06/2025",
-                    "total": 4000.0,
-                    "status": "No customer master record exists for sold-to party 1000000174"
-                },
-                {
-                    "orderId": "ORD_00161",
-                    "contactPerson": "Hassan",
-                    "orderDate": "18/06/2025",
-                    "total": 4000.0,
-                    "status": "No customer master record exists for sold-to party 1000000174"
-                },
-                {
-                    "orderId": "ORD_00165",
-                    "contactPerson": "Hassan",
-                    "orderDate": "18/06/2025",
-                    "total": 4060.0,
-                    "status": "No customer master record exists for sold-to party 1000000174"
-                }
-            ];
-
-            this.getView().getModel("viewModel").setProperty("/orderData", aOrders);
-        },
         
-        _setActivePage: function(sPage) {
-            // Update view model
-            this.getView().getModel("viewModel").setProperty("/currentPage", sPage);
-            
-            // Get the navigation list items correctly
-            var oNavList = this.byId("_IDGenNavigationList");
-            var aItems = oNavList.getItems();
-            
-            // Update selection - NavigationListItem doesn't have setSelected, so we use setSelectedItem
-            var sItemToSelect = sPage + "Item";
-            aItems.forEach(function(oItem) {
-                var sItemId = oItem.getId().split("--").pop();
-                if (sItemId === sItemToSelect) {
-                    oNavList.setSelectedItem(oItem);
-                }
-            });
-            
-            // Force update of bindings
-            this.getView().getModel("viewModel").refresh(true);
+            // Set current page in view model
+            this.getView().getModel("viewModel").setProperty("/currentPage", sPageKey);
         },
 
-        onBackToLogin: function() {
+        onToggleSidebar: function () {
+            var oToolPage = this.byId("toolPage");
+            oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
+        },
+
+        onBackToLogin: function () {
             localStorage.clear();
             this.getOwnerComponent().getModel("userData").setData({
                 userId: null,
@@ -117,14 +69,59 @@ sap.ui.define([
             this.getOwnerComponent().getRouter().navTo("loginRoute");
         },
 
+        _loadOrderData: function () {
+            var oUserModel = this.getView().getModel(); // default model is userData
+            var sUserId = oUserModel.getProperty("/userId");
+            var sToken = oUserModel.getProperty("/token");
+        
+            BusyIndicator.show();
+        
+            if (!sUserId || !sToken) {
+                console.error("User ID or Token not found");
+                BusyIndicator.hide();
+                return;
+            }
+        
+            var sUrl = "https://ordermanagement-empathic-mandrill-be.cfapps.us10-001.hana.ondemand.com/api/GSUS/order_master/get_all_ordermaster_by_customer/" + sUserId;
+        
+            var that = this;
+            fetch(sUrl, {
+                method: "GET",
+                headers: {
+                    "Authorization": "Bearer " + sToken
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP status " + response.status);
+                }
+                return response.json();
+            })
+            .then(aData => {
+                that.getView().getModel("viewModel").setProperty("/orderData", aData);
+            })
+            .catch(error => {
+                console.error("Failed to load orders:", error);
+                sap.m.MessageBox.error("Failed to load orders: " + error.message);
+            })
+            .finally(() => {
+                BusyIndicator.hide();
+            });
+        },
+
         onOrderSelected: function(oEvent) {
             var oSelectedItem = oEvent.getParameter("listItem");
             var oContext = oSelectedItem.getBindingContext("viewModel");
-            var sOrderId = oContext.getProperty("orderId");
-            
-            MessageBox.show("Selected order: " + sOrderId, {
-                title: "Order Selected"
-            });
+            var oSelectedOrder = oContext.getObject();
+        
+            this.getView().getModel("viewModel").setProperty("/selectedOrder", oSelectedOrder);
+            this.getView().getModel("viewModel").setProperty("/currentPage", "orderItems");
+        },
+        
+        onBackToOrders: function() {
+            this.getView().getModel("viewModel").setProperty("/currentPage", "orders");
         }
+        
+        
     });
 });

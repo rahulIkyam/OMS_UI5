@@ -1,0 +1,38 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+    <VBox id="orderItemsContent" visible="{= ${viewModel>/currentPage} === 'orderItems'}" width="100%">
+        <Text id="_IDGenText9" text="Line Items" class="sapUiSmallMarginBottom sapUiLargeMarginTop" />
+
+        <Table
+            id="orderItemsTable"
+            items="{viewModel>/selectedOrder/items}"
+            inset="false">
+            <columns>
+                <Column id="_IDGenColumn"><Text id="_IDGenText10" text="Product" /></Column>
+                <Column id="_IDGenColumn6"><Text id="_IDGenText15" text="Qty" /></Column>
+                <Column id="_IDGenColumn7"><Text id="_IDGenText21" text="Category" /></Column>
+                <Column id="_IDGenColumn8"><Text id="_IDGenText22" text="Base Unit" /></Column>
+                <Column id="_IDGenColumn9"><Text id="_IDGenText23" text="Price" /></Column>
+                <Column id="_IDGenColumn10"><Text id="_IDGenText24" text="Amount" /></Column>
+                <Column id="_IDGenColumn11"><Text id="_IDGenText25" text="Notes" /></Column>
+            </columns>
+            <items>
+                <ColumnListItem id="_IDGenColumnListItem2">
+                    <cells>
+                        <Text id="_IDGenText26" text="{viewModel>product}" />
+                        <Text id="_IDGenText27" text="{viewModel>qty}" />
+                        <Text id="_IDGenText28" text="{viewModel>categoryName}" />
+                        <Text id="_IDGenText29" text="{viewModel>baseUnit}" />
+                        <Text id="_IDGenText30" text="{viewModel>standardPrice}" />
+                        <Text id="_IDGenText31" text="{viewModel>totalAmount}" />
+                        <Text id="_IDGenText32" text="{viewModel>notes}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+
+        <Text id="_IDGenText33" text="Total Amount: {viewModel>/selectedOrder/total}" 
+              class="sapUiLargeMarginTop sapUiSmallMargin" />
+              
+        <Button id="_IDGenButton3" text="Back" press=".onBackToOrders" class="sapUiSmallMarginTop"/>
+    </VBox>
+</core:FragmentDefinition>
