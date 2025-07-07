@@ -10,10 +10,48 @@
             text="Dashboard"
             icon="sap-icon://home"
             select=".onNavItemSelect"/>
+        
+
+        <!-- Admin specific items -->
+        <tnt:NavigationListItem 
+            id="adminUsersItem"
+            text="User Management"
+            icon="sap-icon://employee"
+            visible="{= ${/role} === 'Admin' }"
+            select=".onNavItemSelect"/>
+        <tnt:NavigationListItem 
+            id="adminSettingsItem"
+            text="System Settings"
+            icon="sap-icon://settings"
+            visible="{= ${/role} === 'Admin' }"
+            select=".onNavItemSelect"/>
+
+        <!-- Employee specific items -->
+        <tnt:NavigationListItem 
+            id="employeeOrdersItem"
+            text="All Orders"
+            icon="sap-icon://sales-order"
+            visible="{= ${/role} === 'Employee' }"
+            select=".onNavItemSelect"/>
+        <tnt:NavigationListItem 
+            id="employeeReportsItem"
+            text="Reports"
+            icon="sap-icon://business-objects-experience"
+            visible="{= ${/role} === 'Employee' }"
+            select=".onNavItemSelect"/>
+
+        <!-- Customer specific items -->
         <tnt:NavigationListItem 
             id="ordersItem"
             text="My Orders"
             icon="sap-icon://sales-order"
+            visible="{= ${/role} === 'Customer' }"
+            select=".onNavItemSelect"/>
+        <tnt:NavigationListItem 
+            id="customerProfileItem"
+            text="My Profile"
+            icon="sap-icon://customer"
+            visible="{= ${/role} === 'Customer' }"
             select=".onNavItemSelect"/>
     </tnt:NavigationList>
 </core:FragmentDefinition>

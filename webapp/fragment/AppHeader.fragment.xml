@@ -1,0 +1,23 @@
+<core:FragmentDefinition
+xmlns="sap.m"
+xmlns:tnt="sap.tnt"
+xmlns:core="sap.ui.core">
+
+<OverflowToolbar id="appHeaderToolbar">
+<Button 
+    id="menuButton"
+    icon="sap-icon://menu2" 
+    press=".onToggleSidebar"/>
+<ToolbarSpacer id="_IDGenToolbarSpacer2"/>
+<Text 
+    id="roleText"
+    text="Role: {/role}" 
+    class="sapUiTinyMarginEnd"/>
+<Button 
+    id="logoutButton"
+    text="Logout" 
+    press=".onBackToLogin"
+    type="Reject"
+    class="sapUiSmallMarginBegin"/>
+</OverflowToolbar>
+</core:FragmentDefinition>

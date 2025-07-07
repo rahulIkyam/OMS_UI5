@@ -103,10 +103,11 @@ sap.ui.define([
         _navigateBasedOnRole: function() {
             var oRouter = this.getOwnerComponent().getRouter();
             var sRole = localStorage.getItem("role") || "";
+            var sUserId = localStorage.getItem("userId") || "admin";
             
             // Navigate to welcome screen with user data
             oRouter.navTo("welcomeRoute", {
-                username: localStorage.getItem("userId")
+                username: sUserId
             });
         }
     });

@@ -8,17 +8,7 @@
     
     <tnt:ToolPage id="toolPage">
         <tnt:header>
-            <OverflowToolbar id="_IDGenOverflowToolbar">
-                <Button id="_IDGenButton1" icon="sap-icon://menu2" press=".onToggleSidebar"/>
-                <Title id="_IDGenTitle1" text="Welcome, {/userId}!"/>
-                <ToolbarSpacer id="_IDGenToolbarSpacer"/>
-                <Text id="_IDGenText6" text="Role: {/role}" class="sapUiTinyMarginEnd"/>
-                <Button id="_IDGenButton2" 
-                    text="Logout" 
-                    press=".onBackToLogin"
-                    type="Reject"
-                    class="sapUiSmallMarginBegin"/>
-            </OverflowToolbar>
+            <core:Fragment fragmentName="oms1.fragment.AppHeader" type="XML"/>
         </tnt:header>
 
         <tnt:sideContent>
@@ -32,7 +22,9 @@
             <Page id="_IDGenPage1" showHeader="false">
                 <content>
                     <!-- Dashboard Fragment -->
-                    <core:Fragment fragmentName="oms1.fragment.Dashboard" type="XML"/>
+                    <VBox id="_IDGenVBox2" visible="{= ${viewModel>/currentPage} === 'dashboard'}">
+                        <core:Fragment fragmentName="oms1.fragment.Dashboard" type="XML"/>
+                    </VBox>
                     <VBox id="_IDGenVBox5" class="sapUiSmallMarginBegin sapUiSmallMarginEnd">
                         <core:Fragment fragmentName="oms1.fragment.Orders" type="XML"/>
                     </VBox>
